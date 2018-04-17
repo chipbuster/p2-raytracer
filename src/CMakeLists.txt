@@ -40,6 +40,15 @@ endif(STOCHASTIC_SUPERSAMPLING)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
+option(PATH_TRACING "Enable or disable path tracing."
+      ON)
+
+if(PATH_TRACING)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPATHTRACING")
+endif(PATH_TRACING)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
 add_executable(ray ${src} main.cpp)
 add_executable(test-intersect ${src} test-intersect.cpp)
 

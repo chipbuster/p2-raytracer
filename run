@@ -1,0 +1,10 @@
+mkdir -p build
+cd build; cmake .. -DCMAKE_BUILD_TYPE=Release; make -j8
+if [ $? != 0 ]; then
+    printf "Compilation error\n"
+    exit
+fi
+cd ..; ./build/bin/ray $* test.png
+ray-solution $* correct.png
+eog correct.png &
+eog test.png &

@@ -34,5 +34,10 @@ struct FYShuffle{
     std::vector<int> indices;
 };
 
+double randDouble(double limit);
+
+// random unit vector that is not parallel to base
+glm::dvec3 rand3DVector(glm::dvec3 base);
+
 } // namespace MathUtil
 #endif

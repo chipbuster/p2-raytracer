@@ -4,6 +4,7 @@
 
 #include "RayTracer.h"
 #include "ui/CommandLineUI.h"
+#include "scene/config.h"
 
 using namespace std;
 
@@ -33,7 +34,13 @@ int main(int argc, char **argv)
 #endif
     }
 
-    theRayTracer = new RayTracer();
+    Config config(1.0, 5.0);
+
+#ifdef PATHTRACING
+    cout << "Path Tracing is enabled" << endl;
+#endif
+
+    theRayTracer = new RayTracer(config);
 
     traceUI->setRayTracer(theRayTracer);
     return traceUI->run();

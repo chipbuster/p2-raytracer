@@ -19,6 +19,7 @@
 #include "camera.h"
 #include "material.h"
 #include "ray.h"
+#include "config.h"
 
 #include <glm/geometric.hpp>
 #include <glm/mat3x3.hpp>
@@ -251,6 +252,9 @@ class Scene {
 
     void initKdTree(int maxDepth, int targSize);
 
+    Config getConfig() const { return config; }
+    void setConfig(Config conf) { config = conf; }
+
     private:
     std::vector<std::unique_ptr<Geometry>> objects;
     std::vector<std::unique_ptr<Light>> lights;
@@ -271,6 +275,8 @@ class Scene {
     BoundingBox sceneBounds;
 
     KdTree<Geometry>* kdtree;
+
+    Config config;
 
     public:
     // This is used for debugging purposes only.

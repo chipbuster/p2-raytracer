@@ -11,6 +11,7 @@
 #include <thread>
 #include "scene/cubeMap.h"
 #include "scene/ray.h"
+#include "scene/config.h"
 #include <random>
 #include <cmath>
 
@@ -26,7 +27,7 @@ class Pixel {
 
 class RayTracer {
     public:
-    RayTracer();
+    RayTracer(Config conf);
     ~RayTracer();
 
     glm::dvec3 tracePixel(int i, int j);
@@ -72,6 +73,8 @@ class RayTracer {
     
     // Code for a uniform-unit-rng
     std::default_random_engine generator;
+
+    Config config;
 };
 
 #endif // __RAYTRACER_H__

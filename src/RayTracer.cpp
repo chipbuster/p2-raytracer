@@ -255,13 +255,14 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
     return colorC;
 }
 
-RayTracer::RayTracer()
+RayTracer::RayTracer(Config conf)
         : scene(nullptr),
           buffer(0),
           thresh(0),
           buffer_width(256),
           buffer_height(256),
-          m_bBufferReady(false)
+          m_bBufferReady(false),
+          config(conf)
 {
 }
 
@@ -318,6 +319,8 @@ bool RayTracer::loadScene(const char *fn)
 
     if (!sceneLoaded())
         return false;
+
+    scene->setConfig(config);
 
     return true;
 }

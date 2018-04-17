@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/io.hpp>
 #include "light.h"
+#include "../mathutil.h"
 
 using namespace std;
 extern bool debugMode;
@@ -20,6 +21,7 @@ glm::dvec3 DirectionalLight::shadowAttenuation(const ray &r,
     ray sRay1(p - RAY_EPSILON * r.getDirection(), this->getDirection(p),
               glm::dvec3(1.0), ray::SHADOW);
     isect i1;
+
     if (!scene->intersect(sRay1, i1)) {
         // No intersection: this ray is not attenuated
         return glm::dvec3(1.0);
