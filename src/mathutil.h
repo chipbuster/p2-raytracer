@@ -3,6 +3,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/vec3.hpp>
+#include <glm/gtc/random.hpp>
 
 #include <vector>
 
@@ -34,10 +35,9 @@ struct FYShuffle{
     std::vector<int> indices;
 };
 
-double randDouble(double limit);
 
 // random unit vector that is not parallel to base
-glm::dvec3 rand3DVector(glm::dvec3 base);
+glm::dvec3 randHemisphere(const glm::dvec3& normal);
 
 } // namespace MathUtil
 #endif

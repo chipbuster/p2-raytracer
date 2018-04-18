@@ -47,20 +47,16 @@ int FYShuffle::next(){
     return val;
 }
 
-double randDouble(double limit) {
-    return rand() / (RAND_MAX / limit);
-}
 
-glm::dvec3 rand3DVector(glm::dvec3 base) {
-    glm::dvec3 vec(0.0);
-    for(int i = 0; i < 3; i++) {
-        vec[i] = randDouble(1.0);
+glm::dvec3 randHemisphere(const glm::dvec3& normal) {
+    glm::dvec3 rand = glm::sphericalRand(1.0);
+
+    // If not in hemisphere, apply householder reflector
+    if(glm::dot(rand, normal) < 0){
+        rand -= 2 * glm::dot(rand, normal) * normal;
     }
-    if(glm::length(glm::cross(vec, base)) == 0.0 or
-       glm::length(vec) == 0.0) {
-        return rand3DVector(base);
-    }
-    return glm::normalize(vec);
+
+    return rand;
 }
 
 } // namespace MathUtil

@@ -16,6 +16,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/random.hpp>
 #include <glm/gtx/io.hpp>
+#include <glm/gtx/component_wise.hpp>
+#include <glm/gtx/string_cast.hpp>
 #include "ui/TraceUI.h"
 
 #include <algorithm>
@@ -151,6 +153,29 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
             assert("Refraction ray intersected nontransparent");
         }
 
+#ifdef PATHTRACING
+
+        /* Setup for lambertian contribution to path shading */
+        glm::dvec3 indirectPathColor(0.0);
+        for(int count = 0; count < config.getSamples(); count++){
+            // Shoot path rays into the world
+            glm::dvec3 newDir = MathUtil::randHemisphere(i.getN());
+            glm::dvec3 newPt = isectPt - RAY_EPSILON * r.getDirection();
+
+            ray newRay(newPt, newDir, glm::dvec3(1.0), ray::VISIBILITY);
+
+            glm::dvec3 colorContrib = traceRay(newRay, thresh, depth - 1, t);
+
+            indirectPathColor += glm::dot(i.getN(), newDir) * colorContrib;
+        }
+
+        /* A proper pathtracer uses an albedo term to determine the weights. 
+           As a hack, take the elementwise-mean of the diffuse terms */
+        double albedo = 1.0;
+        colorC += indirectPathColor * (1.0 / config.getSamples()) * albedo;
+
+#endif
+
         // If Recur (i.e. translucent or transparent), add recurrent
         // components
         if (m.Refl() || m.Trans()) {
@@ -171,11 +196,7 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
             if (m.Trans()) {
                 const double refrInd = i.getMaterial().index(i);
 
-                /* I tried two or three ways to calculate the
-                 * target refraction vector, and every single
-                 * one detonated on numerical issues when theta
-                 * is small. So I nicked this from
-                 * http://bit.ly/2nxXIL5 */
+                /* http://bit.ly/2nxXIL5 */
 
                 /* Is the ray pointed into or out of the shape?
                    NB: this does not tell us where the ray goes,
@@ -232,14 +253,7 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
     } else {
         // No intersection.  This ray travels to infinity, so we color
         // it according to the background color, which in this (simple)
-        // case is just black.
-        //
-        // FIXME: Add CubeMap support here.
-        // TIPS: CubeMap object can be fetched from
-        // traceUI->getCubeMap();
-        //       Check traceUI->cubeMap() to see if cubeMap is loaded
-        //       and enabled.
-
+        // case is just black, or a cubemap color
         if (traceUI->cubeMap()) {
             CubeMap *cmap = traceUI->getCubeMap();
             colorC = cmap->getColor(r);
@@ -373,9 +387,11 @@ void RayTracer::traceImage(int w, int h)
 #ifdef NDEBUG
 #pragma omp parallel for schedule(dynamic)
 #endif
+
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
             tracePixel(i, j);
+            std::cout << "Pixel " << i * w + j << "/" << w*h << std::endl;
         }
     }
     debugMode = true;
