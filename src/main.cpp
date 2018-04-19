@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 #endif
     }
 
-    Config config(1.0, 10.0);
+    Config config(1.0, 100.0);
 
 #ifdef PATHTRACING
     cout << "Path Tracing is enabled" << endl;

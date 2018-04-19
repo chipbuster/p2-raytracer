@@ -156,6 +156,7 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
 #ifdef PATHTRACING
 
         /* Setup for lambertian contribution to path shading */
+        if(r.type() == ray::VISIBILITY){
         glm::dvec3 indirectPathColor(0.0);
         for(int count = 0; count < config.getSamples(); count++){
             // Shoot path rays into the world
@@ -173,7 +174,7 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
            As a hack, take the elementwise-mean of the diffuse terms */
         double albedo = 1.0;
         colorC += indirectPathColor * (1.0 / config.getSamples()) * albedo;
-
+        }
 #endif
 
         // If Recur (i.e. translucent or transparent), add recurrent
@@ -391,6 +392,7 @@ void RayTracer::traceImage(int w, int h)
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
             tracePixel(i, j);
+            if((i*w+j) % 1000 == 0)
             std::cout << "Pixel " << i * w + j << "/" << w*h << std::endl;
         }
     }
