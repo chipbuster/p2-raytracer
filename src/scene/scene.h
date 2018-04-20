@@ -252,8 +252,8 @@ class Scene {
 
     void initKdTree(int maxDepth, int targSize);
 
-    Config getConfig() const { return config; }
-    void setConfig(Config conf) { config = conf; }
+    Config getConfig() const { return *config; }
+    void setConfig(Config* conf) { config = conf; }
 
     private:
     std::vector<std::unique_ptr<Geometry>> objects;
@@ -276,7 +276,7 @@ class Scene {
 
     KdTree<Geometry>* kdtree;
 
-    Config config;
+    Config* config;
 
     public:
     // This is used for debugging purposes only.

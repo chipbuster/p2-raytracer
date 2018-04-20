@@ -335,7 +335,7 @@ bool RayTracer::loadScene(const char *fn)
     if (!sceneLoaded())
         return false;
 
-    scene->setConfig(config);
+    scene->setConfig(&config);
 
     return true;
 }

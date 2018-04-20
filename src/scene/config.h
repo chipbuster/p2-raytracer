@@ -6,19 +6,19 @@
 class Config
 {
 private:
-    double radius;
     double samples;
+    double lightRadius;
+    double lightSamples;
     
 public:
-    Config() {}
-
-    Config(double r, double s) :
-        radius(r), samples(s) {}
+    Config(double s=20.0, double lr=5.0, double ls=100.0) :
+        samples(s), lightRadius(lr), lightSamples(ls) {}
 
     ~Config() {}
 
-    double getRadius() { return radius; }
     double getSamples() { return samples; }
+    double getLightRadius() { return lightRadius; }
+    double getLightSamples() { return lightSamples; }
 };
 
 #endif // __CONFIG_H__

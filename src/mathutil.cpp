@@ -81,6 +81,10 @@ static uint32_t XorShift32()
     return x;
 }
 
+double randDouble(const double limit) {
+    return XorShift32() / (RAND_MAX / limit);
+}
+
 glm::dvec3 randHemisphere(const glm::dvec3 &normal)
 {
     float r1 = static_cast<float>(XorShift32()) * invFltMax;

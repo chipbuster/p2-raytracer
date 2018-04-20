@@ -35,6 +35,7 @@ struct FYShuffle{
     std::vector<int> indices;
 };
 
+double randDouble(const double limit);
 
 // random unit vector that is not parallel to base
 glm::dvec3 randHemisphere(const glm::dvec3& normal);
