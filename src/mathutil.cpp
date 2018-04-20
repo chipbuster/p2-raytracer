@@ -1,10 +1,10 @@
 #include "mathutil.h"
 
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 #include <limits>
 #include <random>
-#include <iostream>
 
 namespace MathUtil {
 
@@ -60,13 +60,19 @@ glm::dvec3 uniformSampleHemisphere(const float &r1, const float &r2)
     double y = sin(phi) * sin(theta);
     double z = cos(phi);
 
-    return glm::dvec3(x,y,z);
+    return glm::dvec3(x, y, z);
 }
 
-thread_local static uint32_t s_RndState = 1;
+thread_local static uint32_t s_RndState = 0;
+thread_local static bool s_RndInit = false;
 constexpr float invFltMax = 1.0 / (std::numeric_limits<uint32_t>::max());
 static uint32_t XorShift32()
 {
+    if (!s_RndInit) {
+        s_RndState = rand();
+        s_RndInit = true;
+    }
+
     uint32_t x = s_RndState;
     x ^= x << 13;
     x ^= x >> 17;
@@ -79,10 +85,10 @@ glm::dvec3 randHemisphere(const glm::dvec3 &normal)
 {
     float r1 = static_cast<float>(XorShift32()) * invFltMax;
     float r2 = static_cast<float>(XorShift32()) * invFltMax;
-    glm::dvec3 rand = uniformSampleHemisphere(r1,r2);
+    glm::dvec3 rand = uniformSampleHemisphere(r1, r2);
 
     // If not in hemisphere, apply householder reflector
-    if(glm::dot(rand, normal) < 0){
+    if (glm::dot(rand, normal) < 0) {
         rand -= 2 * glm::dot(rand, normal) * normal;
     }
 
