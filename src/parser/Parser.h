@@ -62,6 +62,7 @@ class Parser {
 
     // Parse lights
     PointLight* parsePointLight(Scene* scene);
+    AreaLight* parseAreaLight(Scene* scene);
     DirectionalLight* parseDirectionalLight(Scene* scene);
     void parseAmbientLight(Scene* scene);
 

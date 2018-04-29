@@ -44,9 +44,11 @@ string getNameForToken(const SYMBOL kind)
         tokenNames[AMBIENT_LIGHT] = "ambient_light";
         tokenNames[POINT_LIGHT] = "point_light";
         tokenNames[DIRECTIONAL_LIGHT] = "directional_light";
+        tokenNames[AREA_LIGHT] = "area_light";
         tokenNames[CONSTANT_ATTENUATION_COEFF] = "constant_attenuation_coeff";
         tokenNames[LINEAR_ATTENUATION_COEFF] = "linear_attenuation_coeff";
         tokenNames[QUADRATIC_ATTENUATION_COEFF] = "quadratic_attenuation_coeff";
+        tokenNames[LIGHT_RADIUS] = "light_radius";
         tokenNames[SPHERE] = "sphere";
         tokenNames[BOX] = "box";
         tokenNames[SQUARE] = "square";
@@ -112,6 +114,7 @@ SYMBOL lookupReservedWord(const string &ident)
     if (reservedWords.empty()) {
         reservedWords["ambient_light"] = AMBIENT_LIGHT;
         reservedWords["ambient"] = AMBIENT;
+        reservedWords["area_light"] = AREA_LIGHT;
         reservedWords["aspectratio"] = ASPECTRATIO;
         reservedWords["bottom_radius"] = BOTTOM_RADIUS;
         reservedWords["box"] = BOX;
@@ -134,14 +137,13 @@ SYMBOL lookupReservedWord(const string &ident)
         reservedWords["height"] = HEIGHT;
         reservedWords["index"] = INDEX;
         reservedWords["linear_attenuation_coeff"] = LINEAR_ATTENUATION_COEFF;
+        reservedWords["light_radius"] = LIGHT_RADIUS;
         reservedWords["material"] = MATERIAL;
         reservedWords["materials"] = MATERIALS;
         reservedWords["map"] = MAP;
         reservedWords["name"] = NAME;
         reservedWords["normals"] = NORMALS;
-        reservedWords["point_light"] = POINT_LIGHT;
-        reservedWords["points"] = POLYPOINTS;
-        reservedWords["polymesh"] = TRIMESH;
+        reservedWords["point_light"] = POINT_LIGHT; reservedWords["points"] = POLYPOINTS; reservedWords["polymesh"] = TRIMESH;
         reservedWords["position"] = POSITION;
         reservedWords["quadratic_attenuation_coeff"] =
                 QUADRATIC_ATTENUATION_COEFF;
