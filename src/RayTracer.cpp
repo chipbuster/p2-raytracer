@@ -15,8 +15,8 @@
 #include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtc/random.hpp>
-#include <glm/gtx/io.hpp>
 #include <glm/gtx/component_wise.hpp>
+#include <glm/gtx/io.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include "ui/TraceUI.h"
 
@@ -47,9 +47,8 @@ bool debugMode = true;
 
 glm::dvec3 RayTracer::trace(double x, double y)
 {
-
     // DEBUGGING
-    //scene->getCamera().setFOV(130);
+    // scene->getCamera().setFOV(130);
 
     // Clear out the ray cache in the scene for debugging purposes,
     if (TraceUI::m_debug)
@@ -59,8 +58,8 @@ glm::dvec3 RayTracer::trace(double x, double y)
           ray::VISIBILITY);
     scene->getCamera().rayThrough(x, y, r);
     double dummy = -1;
-    glm::dvec3 ret =
-            traceRay(r, glm::dvec3(1.0, 1.0, 1.0), traceUI->getDepth(), dummy);
+    glm::dvec3 ret = traceRay(r, glm::dvec3(1.0, 1.0, 1.0), traceUI->getDepth(),
+                              config.getMCDepth(), dummy);
     ret = glm::clamp(ret, 0.0, 1.0);
     return ret;
 }
@@ -75,13 +74,11 @@ glm::dvec3 RayTracer::tracePixel(int i, int j)
     double x = double(i) / double(buffer_width);
     double y = double(j) / double(buffer_height);
 
-
     unsigned char *pixel = buffer.data() + (i + j * buffer_width) * 3;
 
     if (traceUI->aaSwitch()) {
         double dx = 1 / (double)(samples * buffer_width);
         double dy = 1 / (double)(samples * buffer_height);
-
 
         for (int i = 0; i < samples; i++) {
             for (int j = 0; j < samples; j++) {
@@ -89,22 +86,24 @@ glm::dvec3 RayTracer::tracePixel(int i, int j)
                 double ny = y + dy * (double)j - (double)(samples / 2) * dy;
 
 #ifdef STOCHSSAA
-        double dd = min(dx,dy);
-        std::uniform_real_distribution<double> unifunitd(0.0,1.0);
-        double bmx1 = unifunitd(this->generator);
-        double bmx2 = unifunitd(this->generator);
+                double dd = min(dx, dy);
+                std::uniform_real_distribution<double> unifunitd(0.0, 1.0);
+                double bmx1 = unifunitd(this->generator);
+                double bmx2 = unifunitd(this->generator);
 
-        // Use box-muller transform to obtain sample from gaussian
-        double rx = sqrt(-2 * log(bmx1) ) * cos(2 * pi * bmx2);
-        double ry = sqrt(-2 * log(bmx1) ) * sin(2 * pi * bmx2);
+                // Use box-muller transform to obtain sample from gaussian
+                double rx = sqrt(-2 * log(bmx1)) * cos(2 * pi * bmx2);
+                double ry = sqrt(-2 * log(bmx1)) * sin(2 * pi * bmx2);
 
-        // 2sigma samples should fall within dd of the origin.
-        rx *= dd; rx /= 3;
-        ry *= dd; ry /= 3;
+                // 2sigma samples should fall within dd of the origin.
+                rx *= dd;
+                rx /= 3;
+                ry *= dd;
+                ry /= 3;
 
-        // Modify original coordinate points with jitter
-        nx += rx;
-        ny += ry;
+                // Modify original coordinate points with jitter
+                nx += rx;
+                ny += ry;
 #endif
 
                 col += trace(nx, ny);
@@ -127,7 +126,7 @@ glm::dvec3 RayTracer::tracePixel(int i, int j)
 // Do recursive ray tracing!  You'll want to insert a lot of code here
 // (or places called from here) to handle reflection, refraction, etc etc.
 glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
-                               double &t)
+                               int mcDepth, double &t)
 {
     isect i;
     glm::dvec3 colorC;
@@ -154,26 +153,31 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
         }
 
 #ifdef PATHTRACING
+        if (mcDepth > 0 && r.type() == ray::VISIBILITY) {
+            /* Setup for lambertian contribution to path shading */
+            glm::dvec3 indirectPathColor(0.0);
 
-        /* Setup for lambertian contribution to path shading */
-        if(r.type() == ray::VISIBILITY){
-        glm::dvec3 indirectPathColor(0.0);
-        for(int count = 0; count < config.getSamples(); count++){
-            // Shoot path rays into the world
-            glm::dvec3 newDir = MathUtil::randHemisphere(i.getN());
-            glm::dvec3 newPt = isectPt - RAY_EPSILON * r.getDirection();
+            // Adaptively shoot fewer samples the deeper we go
+            double numSamples = config.getSamples() / (float)(config.getMCDepth() + 1 - mcDepth);
 
-            ray newRay(newPt, newDir, glm::dvec3(1.0), ray::VISIBILITY);
+            for (int count = 0; count < numSamples; count++) {
+                // Shoot path rays into the world
+                glm::dvec3 newDir = MathUtil::randHemisphere(i.getN());
+                glm::dvec3 newPt = isectPt - RAY_EPSILON * r.getDirection();
 
-            glm::dvec3 colorContrib = traceRay(newRay, thresh, depth - 1, t);
+                ray newRay(newPt, newDir, glm::dvec3(1.0), ray::VISIBILITY);
 
-            indirectPathColor += glm::dot(i.getN(), newDir) * colorContrib;
-        }
+                glm::dvec3 colorContrib =
+                        traceRay(newRay, thresh, depth - 1, mcDepth - 1, t);
 
-        /* A proper pathtracer uses an albedo term to determine the weights. 
-           As a hack, take the elementwise-mean of the diffuse terms */
-        double albedo = 1.0;
-        colorC += indirectPathColor * (1.0 / config.getSamples()) * albedo;
+                indirectPathColor += glm::dot(i.getN(), newDir) * colorContrib;
+            }
+
+            /* A proper pathtracer uses an albedo term to determine the
+               weights.
+               As a hack, take the elementwise-mean of the diffuse terms */
+            double albedo = 1.0;
+            colorC += indirectPathColor * (1.0 / config.getSamples()) * albedo;
         }
 #endif
 
@@ -192,7 +196,8 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
                 ray reflRay(intersectPt - RAY_EPSILON * r.getDirection(),
                             reflDir, glm::dvec3(1.0), ray::REFLECTION);
 
-                colorC += m.kr(i) * traceRay(reflRay, thresh, depth - 1, t);
+                colorC += m.kr(i) *
+                          traceRay(reflRay, thresh, depth - 1, mcDepth, t);
             }
             if (m.Trans()) {
                 const double refrInd = i.getMaterial().index(i);
@@ -236,7 +241,7 @@ glm::dvec3 RayTracer::traceRay(ray &r, const glm::dvec3 &thresh, int depth,
                            glm::dvec3(1.0),
                            escaped ? ray::VISIBILITY : ray::REFRACTION);
 
-                colorC += traceRay(newRay, thresh, depth - 1, t);
+                colorC += traceRay(newRay, thresh, depth - 1, mcDepth, t);
             }
 
             // If this ray was a refraction ray, attenuate intensity
@@ -362,7 +367,7 @@ void RayTracer::traceSetup(int w, int h)
     aaThresh = traceUI->getAaThreshold();
 
     // YOUR CODE HERE
-    if(traceUI->kdSwitch()){
+    if (traceUI->kdSwitch()) {
         scene->initKdTree(traceUI->getMaxDepth(), traceUI->getLeafSize());
     }
 }
@@ -392,8 +397,8 @@ void RayTracer::traceImage(int w, int h)
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
             tracePixel(i, j);
-            if((i*w+j) % 1000 == 0)
-            std::cout << "Pixel " << i * w + j << "/" << w*h << std::endl;
+            if ((i * w + j) % 1000 == 0)
+                std::cout << "Pixel " << i * w + j << "/" << w * h << std::endl;
         }
     }
     debugMode = true;
