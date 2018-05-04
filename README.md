@@ -15,11 +15,23 @@ Kevin Song and Aditya Durvasula
 
 # Configuration
 
-The two major configuration options in the pathtracer
-are number of samples for shading and shadow calculation.
-By default, these are 30 and 30. These can be changed in
-`path-config.txt`, with number of shader samples on the
-upper line and number of shadow samples on the lower one.
+There are three config options for pathtracing:
+
+  - Shader samples
+    Number of scattered rays to cast at each shading collision. By default
+    this is 30
+  - Shadow samples
+    Number of jittered shadow rays to cast when checking for shadows. By
+    default this is 30
+  - Pathtracer Depth
+    The maximum number of times to recurse on scattered rays. Note that this
+    is independently calculated from the normal recursion (which decrements
+    on reflection/refraction), but normal recursion needs to be >= 0 to see
+    any pathtracing effects due to a quirk in the architecture.
+    Default value is 2.
+
+These settings can be edited in `path-config.txt` where they are given
+one per line, in the order specified above.
 
 ## (Non)GUI
 

@@ -5,6 +5,7 @@
 #include "RayTracer.h"
 #include "ui/CommandLineUI.h"
 #include "scene/config.h"
+#include <fstream>
 
 using namespace std;
 
@@ -34,7 +35,19 @@ int main(int argc, char **argv)
 #endif
     }
 
-    Config config(30.0, 1.0, 30.0);
+    // Read config values from file if it exists
+    ifstream in("path-config.txt", std::ios::in);
+    Config config = nullptr;
+    if(in.good()){
+        double n1, n2, n3;
+        in >> n1;
+        in >> n2;
+        in >> n3;
+        config.set(n1, 1.0, n2, n3);
+    }
+    else{
+        config.set(30.0, 1.0, 30.0, 2);
+    }
 
 #ifdef PATHTRACING
     cout << "Path Tracing is enabled" << endl;
