@@ -61,6 +61,7 @@ Scene *Parser::parseScene()
                 scene->add(parsePointLight(scene));
                 break;
             case AREA_LIGHT:
+                std::cout << "Found ALight" << std::endl;
                 scene->add(parseAreaLight(scene));
                 break;
             case DIRECTIONAL_LIGHT:
@@ -802,7 +803,7 @@ AreaLight *Parser::parseAreaLight(Scene *scene)
 
     bool hasPosition(false), hasColor(false);
 
-    _tokenizer.Read(POINT_LIGHT);
+    _tokenizer.Read(AREA_LIGHT);
     _tokenizer.Read(LBRACE);
 
     for (;;) {
@@ -862,6 +863,8 @@ AreaLight *Parser::parseAreaLight(Scene *scene)
                         _tokenizer);
         }
     }
+
+    std::cout << "End ALight Parse"  << std::endl;
 }
 
 DirectionalLight *Parser::parseDirectionalLight(Scene *scene)
