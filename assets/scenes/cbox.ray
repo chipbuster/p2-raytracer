@@ -7,19 +7,20 @@ camera {
 	updir = (0,1,0);
 }
 
-point_light {
+area_light {
 	position = (0.0,3.0,2.0);
-	colour = (1.0,1.0,0.7);
+	colour = (1.0,1.0,1.0);
+	light_radius = 1.0;
 	constant_attenuation_coeff= 0.25;
 	linear_attenuation_coeff = 0.003372407;
 	quadratic_attenuation_coeff = 0.000045492;	
 }
 
- translate(0,0,-3,
- 	scale(0.8,
+ translate(3,0,-5,
+ 	scale(2.0,
 		sphere { 
 			material = { 
-				diffuse = (0.4,0.4,0);
+				diffuse = (0.4,0.4,1.0);
 				specular = (0.8,0.8,0);
 				shininess = 102.4;
 			} 
@@ -31,7 +32,7 @@ translate( 0,-6,-5,
 		rotate(1,0,0,-1.57,
 			square { 
 				material = { 
-					diffuse = (0.4,0.4,0.4) 
+					diffuse = (0.8,0.8,0.8) 
 			}})))
 
 /* Right wall */
@@ -40,7 +41,7 @@ translate( 7,0,-5,
 		rotate(0,1,0,-1.57,
 			square { 
 				material = { 
-					diffuse = (1.0,0.4,0.4) 
+					diffuse = (1.0,0.1,0.1) 
 			}})))
 
 /* Left wall */
@@ -49,7 +50,7 @@ translate( -7,0,-5,
 		rotate(0,1,0,-1.57,
 			square { 
 				material = { 
-					diffuse = (0.4,1.0,0.4) 
+					diffuse = (0.1,1.0,0.1) 
 			}})))
 
 /* Back wall */
@@ -57,7 +58,7 @@ translate( 0,0,-12,
 	scale(20,
 		square { 
 			material = { 
-				diffuse = (0.7,0.7,0.7) 
+				diffuse = (0.8,0.8,0.8) 
 		}}))
 
 
@@ -67,7 +68,7 @@ translate( 0,6,-5,
 		rotate(1,0,0,1.57,
 			square { 
 				material = { 
-					diffuse = (0.4,0.4,0.4) 
+					diffuse = (0.8,0.8,0.8) 
 			}})))
 
 
