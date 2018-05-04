@@ -839,6 +839,7 @@ AreaLight *Parser::parseAreaLight(Scene *scene)
 
             case LIGHT_RADIUS:
                 lightRadius = parseScalarExpression();
+                break;
 
             case RBRACE:
                 if (!hasColor)
