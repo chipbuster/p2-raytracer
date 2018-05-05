@@ -41,7 +41,7 @@ int main(int argc, char **argv)
         samples = traceUI->getSamples();
     }
 
-    int lightSamples = 100;
+    int lightSamples = 20;
     if(traceUI->getLightSamples() != -1) {
         lightSamples = traceUI->getLightSamples();
     }

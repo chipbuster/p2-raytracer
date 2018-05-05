@@ -5,6 +5,7 @@ Kevin Song and Aditya Durvasula
 # eCIS Extra Credit
 
 I (Kevin Song) have submitted an eCIS for this class.
+I (Aditya Durvasula) have submitted an eCIS for this class.
 
 # Quick Start
 
@@ -26,7 +27,7 @@ There are three config options for pathtracing:
     this is 50. Set by passing the `-s` flag on the command line.
   - Shadow samples
     Number of jittered shadow rays to cast when checking for shadows. By
-    default this is 50. Set by passing the `-l` flag on the command line.
+    default this is 20. Set by passing the `-l` flag on the command line.
 
 ## (Non)GUI
 
