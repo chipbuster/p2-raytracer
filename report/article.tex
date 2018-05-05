@@ -106,4 +106,14 @@ Our soft shadow implementation is similar to what is found in the extra credit
 for this project--a certain number of samples are taken on the light, and shadow
 rays are fired from the intersection to the light.
 
+Other acceleration tricks in this code include spatial data structures (a
+semirandomized kd-tree), parallelization with OpenMP's dynamic scheduling, and
+an adaptive sampling scheme which takes fewer samples when the contribution of
+the samples is lower.
+
+Area lights are specified to the program in one of two ways: either by using
+a CMake flag which forces all lights to behave as area lights with radius 1,
+or by using a new area\_lights specification in a ray file, which allows
+selective area lighting.
+
 \end{document}
