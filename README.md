@@ -2,6 +2,10 @@ Final Project - Pathtracer
 =====================
 Kevin Song and Aditya Durvasula
 
+# eCIS Extra Credit
+
+I (Kevin Song) have submitted an eCIS for this class.
+
 # Quick Start
 
 ```
@@ -19,19 +23,10 @@ There are three config options for pathtracing:
 
   - Shader samples
     Number of scattered rays to cast at each shading collision. By default
-    this is 30
+    this is 50. Set by passing the `-s` flag on the command line.
   - Shadow samples
     Number of jittered shadow rays to cast when checking for shadows. By
-    default this is 30
-  - Pathtracer Depth
-    The maximum number of times to recurse on scattered rays. Note that this
-    is independently calculated from the normal recursion (which decrements
-    on reflection/refraction), but normal recursion needs to be >= 0 to see
-    any pathtracing effects due to a quirk in the architecture.
-    Default value is 2.
-
-These settings can be edited in `path-config.txt` where they are given
-one per line, in the order specified above.
+    default this is 50. Set by passing the `-l` flag on the command line.
 
 ## (Non)GUI
 
