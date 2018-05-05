@@ -6,6 +6,7 @@
 #include "ui/CommandLineUI.h"
 #include "scene/config.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -35,19 +36,17 @@ int main(int argc, char **argv)
 #endif
     }
 
-    // Read config values from file if it exists
-    ifstream in("path-config.txt", std::ios::in);
-    Config config = nullptr;
-    if(in.good()){
-        double n1, n2, n3;
-        in >> n1;
-        in >> n2;
-        in >> n3;
-        config.set(n1, 1.0, n2, n3);
+    int samples = 50;
+    if(traceUI->getSamples() != -1) {
+        samples = traceUI->getSamples();
     }
-    else{
-        config.set(30.0, 1.0, 30.0, 2);
+
+    int lightSamples = 100;
+    if(traceUI->getLightSamples() != -1) {
+        lightSamples = traceUI->getLightSamples();
     }
+
+    Config config(samples, 1.0, lightSamples);
 
 #ifdef PATHTRACING
     cout << "Path Tracing is enabled" << endl;

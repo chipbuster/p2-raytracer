@@ -41,6 +41,8 @@ class TraceUI {
     int getLeafSize() const { return m_nLeafSize; }
     int getFilterWidth() const { return m_nFilterWidth; }
     int getThreads() const { return m_threads; }
+    int getSamples() const { return m_nSamples; }
+    int getLightSamples() const { return m_nLightSamples; }
     bool aaSwitch() const { return m_antiAlias; }
     bool kdSwitch() const { return m_kdTree; }
     bool shadowSw() const { return m_shadows; }
@@ -105,6 +107,8 @@ class TraceUI {
     int m_nTreeDepth = 15;    // maximum kdTree depth
     int m_nLeafSize = 10;     // target number of objects per leaf
     int m_nFilterWidth = 1;   // width of cubemap filter
+    int m_nSamples = -1;
+    int m_nLightSamples = -1;
 
     static int rayCount[MAX_THREADS]; // Ray counter
 

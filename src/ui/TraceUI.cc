@@ -55,6 +55,8 @@ void TraceUI::loadFromJson(const char* file)
     load(json, "tree_depth", m_nTreeDepth);
     load(json, "leaf_size", m_nLeafSize);
     load(json, "filter_width", m_nFilterWidth);
+    load(json, "samples", m_nSamples);
+    load(json, "light_samples", m_nLightSamples);
     load(json, "anti_alias", m_antiAlias);
     load(json, "kdtree", m_kdTree);
     load(json, "shadows", m_shadows);
