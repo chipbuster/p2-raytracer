@@ -114,7 +114,6 @@ glm::dvec3 PointLight::shadowAttenuation(const ray &r,
 
 #ifdef PATHTRACING
 #ifdef FORCEAREA
-    std::cout << "here\n";
     double lightSamples = scene->getConfig().getLightSamples();
     double lightRadius = scene->getConfig().getLightRadius();
     glm::dvec3 res(0.0);
