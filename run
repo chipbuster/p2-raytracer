@@ -5,6 +5,4 @@ if [ $? != 0 ]; then
     exit
 fi
 cd ..; ./build/bin/ray $* test.png
-ray-solution $* correct.png
-eog correct.png &
 eog test.png &
