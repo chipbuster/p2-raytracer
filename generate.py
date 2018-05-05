@@ -17,7 +17,7 @@ def readJson(jsonfile):
         with open(jsonfile) as f:
             data = json.load(f)
             if 'samples' not in data or 'lightSamples' not in data:
-                error('json file "{}"missing some parameters'.format(jsonfile))
+                error('json file "{}" missing some parameters'.format(jsonfile))
             return data['samples'], data['lightSamples']
     except:
         error('json file "{}" does not exist or is invalid'.format(jsonfile))
