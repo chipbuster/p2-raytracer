@@ -34,7 +34,17 @@ int main(int argc, char **argv)
 #endif
     }
 
-    Config config(50.0, 1.0, 100.0);
+    int samples = 50;
+    if(traceUI->getSamples() != -1) {
+        samples = traceUI->getSamples();
+    }
+
+    int lightSamples = 100;
+    if(traceUI->getLightSamples() != -1) {
+        lightSamples = traceUI->getLightSamples();
+    }
+
+    Config config(samples, 1.0, lightSamples);
 
 #ifdef PATHTRACING
     cout << "Path Tracing is enabled" << endl;
