@@ -5,6 +5,8 @@
 #include "RayTracer.h"
 #include "ui/CommandLineUI.h"
 #include "scene/config.h"
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
