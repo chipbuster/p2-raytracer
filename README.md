@@ -43,7 +43,9 @@ recursion depth 1, run
 - Use the flag -DPATHTRACING=OFF to turn off path tracing. This flag is ON
   by default
 - Use the flag -DFORCEAREA=ON to force all point lights to be treated as
-  area lights with a radius of 1.0. This flag is OFF by default.
+  area lights with a radius of 1.0. This flag is OFF by default. This flag
+  is useful if you want to quickly convert point lights in scenes to area
+  lights without having to rewrite or modify the scene
 
 # generate.py
 
