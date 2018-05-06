@@ -16,7 +16,7 @@ I (Aditya Durvasula) have submitted an eCIS for this class.
   cmake .. -DCMAKE_BUILD_TYPE=Release -DPATH_TRACING=ON
   make -jN
   cd ..    # Return to project root
-  ./build/bin/ray ./demos/cbox.ray -r 1
+  ./build/bin/ray -r 1 -s 50 -l 20 demos/cbox.ray output.png
 ```
 
 # Configuration
@@ -35,7 +35,7 @@ For example to render cbox.ray with 50 shader samples, 20 shadow samples and
 recursion depth 1, run
 
 ```bash
-build/bin/ray -r 1 -s 50 -l 20 demos/cbox.ray output.png
+./build/bin/ray -r 1 -s 50 -l 20 demos/cbox.ray output.png
 ```
 
 # Compile time options
