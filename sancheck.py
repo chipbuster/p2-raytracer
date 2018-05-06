@@ -89,8 +89,6 @@ class ArchiveChecker:
             self.crit('Files should be contained by a directory')
         else:
             root_dir = fn_with_dir.split('/')[0]
-            if self.project_name is not None and root_dir != self.project_name:
-                self.bug('The root directory should be {}, not {}'.format(self.project_name, root_dir))
             for f in self.files:
                 segs = f.split('/')
                 another = segs[0]
@@ -118,6 +116,8 @@ class ArchiveChecker:
             if 'pmd_reader_impl.inl' in f:
                 self.project_name = 'skinning'
                 break
+            if 'generate.py' in f:
+                self.project_name = 'pathtracer'
         if self.project_name is None:
             self.bug('{file} is probably not archiving a course project')
 
