@@ -33,7 +33,7 @@ def getImage(samples, lightSamples, scene, foldername, imgname):
 def getImages(samples, lightSamples, scene, foldername):
     images = [[getImage(s, ls, scene, foldername, 'test{}_{}.png'.format(s, ls)) for s in samples]
               for ls in lightSamples]
-    images = np.vstack([np.hstack(row) for row in images])
+    images = np.vstack([np.hstack(row) for row in images][::-1])
     images = Image.fromarray(images)
     return images
 
