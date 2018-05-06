@@ -81,6 +81,13 @@ in the right-most column have 20 shader samples, all the images in the
 bottom-most row have 1 soft shadow sample, and all the images in the top-most
 row have 50 soft shadow samples.
 
+# Notes
+
+## Soft Shadows
+
+Soft shadows are only supported on area lights and point lights using the
+-DFORCE_AREA flag. They don't make sense for directional lights
+
 ## (Non)GUI
 
 Interactive rendering with the GUI is no longer supported.
