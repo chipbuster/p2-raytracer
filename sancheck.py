@@ -36,7 +36,6 @@ CRITERIA = [
         (re.compile('.*\.git/'), 'Git repository at {adir} is not removed'),
         (re.compile('.*/CMakeCache\.txt$'), 'Build directory {adir} is not removed'),
         (re.compile('.*\.o$'), 'Object file {afile} is not removed'),
-        (re.compile('.*\.ray$'), 'Ray file at {afile} is not removed'),
         (re.compile('.*\.bmp$'), 'Image file at {afile} is not removed'),
         (re.compile('.*\.pmd$'), 'PMD file at {afile} is not removed'),
         (re.compile('.*\.jp[e]?g$'), 'Image file at {afile} is not removed'),

@@ -81,6 +81,10 @@ in the right-most column have 20 shader samples, all the images in the
 bottom-most row have 1 soft shadow sample, and all the images in the top-most
 row have 50 soft shadow samples.
 
+# Report
+
+The file *report/article.pdf* is our report.
+
 # Notes
 
 ## Soft Shadows
