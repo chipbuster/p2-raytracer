@@ -125,6 +125,8 @@ void CommandLineUI::usage()
     cerr << "usage: " << progName << " [options] [input.ray output.png]" << endl
          << "  -r <#>      set recursion level (default " << m_nDepth << ")"
          << endl
+         << "  -s <#>      set number of samples for path tracing" << endl
+         << "  -l <#>      set number of samples for area lights" << endl
          << "  -w <#>      set output image width (default " << m_nSize << ")"
          << endl
          << "  -j <FILE>   set parameters from JSON file" << endl
