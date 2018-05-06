@@ -50,7 +50,7 @@ endif(PATH_TRACING)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
 option(FORCEAREA "Force point lights to act as area lights."
-      OFF)
+       ON)
 
 if(FORCEAREA)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFORCEAREA")

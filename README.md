@@ -43,9 +43,14 @@ recursion depth 1, run
 - Use the flag -DPATHTRACING=OFF to turn off path tracing. This flag is ON
   by default
 - Use the flag -DFORCEAREA=ON to force all point lights to be treated as
-  area lights with a radius of 1.0. This flag is OFF by default. This flag
+  area lights with a radius of 1.0. This flag is ON by default. This flag
   is useful if you want to quickly convert point lights in scenes to area
   lights without having to rewrite or modify the scene
+
+# demos
+
+We have placed a few demo scenes that show off the path tracer and soft
+shadows in the folder *demos*.
 
 # generate.py
 
@@ -55,7 +60,7 @@ is an example on how to run generate.py and example of a json configuration
 file.
 
 ```bash
-./generate.py --input demos/cbox.ray --json j.json --output matrix.png
+./generate.py --input demos/cbox.ray --json j.json --output output.png
 ```
 
 ```
