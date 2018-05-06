@@ -16,7 +16,7 @@ I (Aditya Durvasula) have submitted an eCIS for this class.
   cmake .. -DCMAKE_BUILD_TYPE=Release -DPATH_TRACING=ON
   make -jN
   cd ..    # Return to project root
-  ./build/bin/ray ./assets/scenes/cbox.ray -r 1
+  ./build/bin/ray ./demos/cbox.ray -r 1
 ```
 
 # Configuration
@@ -35,7 +35,7 @@ For example to render cbox.ray with 50 shader samples, 20 shadow samples and
 recursion depth 1, run
 
 ```bash
-build/bin/ray -r 1 -s 50 -l 20 assets/scenes/cbox.ray output.png
+build/bin/ray -r 1 -s 50 -l 20 demos/cbox.ray output.png
 ```
 
 # Compile time options
@@ -53,7 +53,7 @@ is an example on how to run generate.py and example of a json configuration
 file.
 
 ```bash
-./generate.py --input assets/scenes/cbox.ray --json j.json --output matrix.png
+./generate.py --input demos/cbox.ray --json j.json --output matrix.png
 ```
 
 ```
