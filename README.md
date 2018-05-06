@@ -16,7 +16,7 @@ I (Aditya Durvasula) have submitted an eCIS for this class.
   cmake .. -DCMAKE_BUILD_TYPE=Release -DPATH_TRACING=ON
   make -jN
   cd ..    # Return to project root
-  ./build/bin/ray ./assets/scenes/cbox.ray -r 2
+  ./build/bin/ray ./assets/scenes/cbox.ray -r 1
 ```
 
 # Configuration
@@ -30,6 +30,13 @@ flags in the original raytracer:
   - Shadow samples
     Number of jittered shadow rays to cast when checking for shadows. By
     default this is 20. Set by passing the `-l` flag on the command line.
+
+For example to render cbox.ray with 50 shader samples, 20 shadow samples and
+recursion depth 1, run
+
+```bash
+build/bin/ray -r 1 -s 50 -l 20 assets/scenes/cbox.ray output.png
+```
 
 # Compile time options
 
@@ -62,10 +69,10 @@ above j.json yields the following image.
 
 ![](matrix.png)
 
-All the images in the left-most column have 1 light shadow samples, all the images
-in the right-most column have 20 light shadow samples, all the images in the
-bottom-most row have 1 path tracing sample, and all the images in the top-most row
-have 50 path tracing samples.
+All the images in the left-most column have 1 shader sample, all the images
+in the right-most column have 20 shader samples, all the images in the
+bottom-most row have 1 soft shadow sample, and all the images in the top-most
+row have 50 soft shadow samples.
 
 ## (Non)GUI
 
